@@ -42,8 +42,8 @@ target
 lib
 
 #Conf
-conf
-/conf
+api/java/conf
+/api/java/conf
 
 
 #data
