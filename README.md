@@ -54,15 +54,21 @@ There are 3 types to use GCP products and services.
 - gsuitl CLI = Cloud Storage command-line tool (Python application)
 - gloud CLI = manages authentication, local configuration, developer workflow, interactions with Google Cloud APIs. With the gcloud command-line tool, it’s easy to perform many common cloud tasks
 
+
+#### Setup
+
+[GCP Setup](https://github.com/yuyatinnefeld/gcp/tree/master/sdk)
+
+
 ### GCP API / Client Library
 - You can use Google Cloud APIs by making direct HTTP requests to the server (or RPC calls where available)
 - Google provides to use the Client library code for all our Cloud APIs
 
 #### Client Libraries
-- Python
+- [Python](https://github.com/yuyatinnefeld/gcp/tree/master/api/python)
 - C#
 - GO
-- Java
+- [Java](https://github.com/yuyatinnefeld/gcp/tree/master/api/java)
 - Node.js
 - PHP
 - Ruby
