@@ -14,8 +14,8 @@ target/
 lib_managed/
 src_managed/
 project/boot/
+project/boot/
 project/plugins/project/
-.project
 .classpath
 .cache
 
@@ -39,7 +39,6 @@ DS_Store
 .idea
 .bsp
 target
-project
 lib
 
 #Conf
