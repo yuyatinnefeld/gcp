@@ -1,9 +1,10 @@
-from google.cloud import storage
 from cloud_storage import *
-storage_client = storage.Client()
+from bigquery import *
 
 if __name__ == "__main__":
-    implicit()
+
+    ## Google Storage
+    #implicit()
     #list_blobs('yu_bucket_1')
     #create_new_bucket('yu_bucket_2')
     #file_upload('yu_bucket_1', 'yu_test.json', 'local-file.json')
@@ -16,3 +17,13 @@ if __name__ == "__main__":
     #delete_blob('yu_bucket_2','yu_test_new_name.json')
     #delete_bucket('yu_bucket_1')
     #delete_bucket('yu_bucket_2')
+
+
+    ## BigQuery
+
+    my_query = """
+        SELECT PRODUCT, PRICE, DISCOUNT 
+        FROM `gcptraining-314606.EDA.campaigns` 
+        LIMIT 100
+    """
+    query(my_query)
