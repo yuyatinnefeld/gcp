@@ -10,7 +10,7 @@
 
 ```bash
 mkdir java/conf
-mv YOUR_SERVICE_JSON_KEY.jso java/conf/service_account.json
+mv YOUR_SERVICE_JSON_KEY.json java/conf/service_account.json
 ```
 
 ### 4. provide authentication credentials to your application code by setting the environment variable
