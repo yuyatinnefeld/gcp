@@ -1,6 +1,17 @@
 # Cloud Storage
 Info: https://cloud.google.com/storage/docs/moving-buckets
 
+## About
+Cloud Storage allows world-wide storage and retrieval of any amount of data at any time. You can use Cloud Storage for a range of scenarios including serving website content, storing data for archival and disaster recovery, or distributing large data objects to users via direct download.
+
+## Benefits
+- Low latency
+- High durability (99.999999999% annual durability)
+- Strong consistency
+- Flexible processing
+- Strong access control
+- Good solution for data like
+
 ### define ENV variables
 ```bash
 PROJECT=xxxxx
