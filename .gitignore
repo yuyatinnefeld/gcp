@@ -44,7 +44,7 @@ lib
 #Conf
 api/java/conf
 /api/java/conf
-
+/conf
 
 #data
 data
