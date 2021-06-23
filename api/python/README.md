@@ -18,8 +18,6 @@ source ./venv/bin/activate (Mac) or env\Scripts\activate (Windows)
 export GOOGLE_APPLICATION_CREDENTIALS=/...YOUR_GCP_PROJECT.../conf/service_account.json
 ```
 
-export GOOGLE_APPLICATION_CREDENTIALS=/Users/yuyatinnefeld/desktop/projects/gcp/api/python/conf/service_account.json
-
 ### 5. installing the python client library
 
 ```bash
