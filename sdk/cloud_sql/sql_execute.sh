@@ -1,34 +1,24 @@
 #!/bin/bash
 
-PROJECT="mytestproject"
 REGION="europe-west3"
 ZONE="europe-west3-b"
-PROJECT_ID="mytestproject-20210615"
+PROJECT_ID="gcptraining-314606"
 PASSWORD="password123"
 CPU_NUM=2
-MEMORY_SIZE="4GiB"
-DBTYPE="POSTGRES_9_6"
-DBNAME="prod-db-lowercase"
-BUCKET_NAME="yuyabucket_12345"
+MEMORY_SIZE="7680MB"
+DB_VERSION="MYSQL_8_0"
+INSTANCE_NAME="mysql-db-instance"
+DB_NAME="mydb123"
+BUCKET_NAME="yuyas-test-bucket"
 FILE_NAME_1="ratings.csv"
-TABLE_NAME="new-table"
+TABLE_NAME="ratings"
 
-
+#create db instance
 docker exec -it gcloud-config \
-gcloud sql instances create ${DBNAME}  \
---database-version=${DBTYPE} --cpu=${CPU_NUM} --memory=${MEMORY_SIZE}  \
+gcloud sql instances create ${INSTANCE_NAME}  \
+--database-version=${DB_VERSION} --cpu=${CPU_NUM} --memory=${MEMORY_SIZE}  \
 --zone=${ZONE} --root-password=${PASSWORD}
 
+#check the instance details
 docker exec -it gcloud-config \
-gcloud sql instances describe ${DBNAME}
-
-#create table
-docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk \
-gcloud sql \
-  import csv ${DBNAME} \
-  gs://${BUCKET_NAME}/${FILE_NAME_1} \
-  --database=${DBNAME}  --table=${TABLE_NAME}
-
-#import from gs
-gcloud sql import sql [INSTANCE_NAME] gs://[BUCKET_NAME]/[IMPORT_FILE_NAME] \
-                            --database=[DATABASE_NAME]
+gcloud sql instances describe ${INSTANCE_NAME}
