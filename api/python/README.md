@@ -17,11 +17,19 @@ source ./venv/bin/activate (Mac) or env\Scripts\activate (Windows)
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS=/.../gcp/conf/service_account.json
 ```
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/yuyatinnefeld/desktop/projects/gcp/conf/service_account.json
+
 
 ### 5. installing the python client library
 
+cloud storage
 ```bash
 pip install --upgrade google-cloud-storage
+```
+
+bigquery
+```bash
+pip install --upgrade google-cloud-bigquery
 ```
 
 

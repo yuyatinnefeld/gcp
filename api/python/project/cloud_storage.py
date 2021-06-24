@@ -119,3 +119,10 @@ def delete_bucket(bucket_name):
     bucket = storage_client.get_bucket(bucket_name)
     bucket.delete()
     print("Bucket {} deleted".format(bucket.name))
+
+
+def upload_csv(bucket_name, blob_name, df):
+    bucket = storage_client.get_bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+    blob.upload_from_string(data=df.to_csv(index=False), content_type='text/csv')
+    print("Blob {} created.".format(blob_name))
