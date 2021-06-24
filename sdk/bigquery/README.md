@@ -14,6 +14,8 @@
 ## Info
 - https://cloud.google.com/architecture/marketing-data-warehouse-on-gcp
 - https://cloud.google.com/architecture/bigquery-data-warehouse
+- https://dev.classmethod.jp/articles/bigquery-cloud-sql-federated-queries/
+
 
 ## Slots
 ![GitHub Logo](/images/bq-slots.png)
