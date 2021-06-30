@@ -280,3 +280,12 @@ bq mk --connection --connection_type='CLOUD_SQL' --properties=PROPERTIES --conne
 SELECT * FROM EXTERNAL_QUERY("connection_id",
 "select * from information_schema.tables;");
 ```
+
+## create a sample table from 
+
+the dataset "tmp" must be default and NOT europe
+
+```roomsql
+CREATE TABLE tmp.test_arquet_export AS
+SELECT * FROM bigquery-public-data.samples.wikipedia LIMIT 100;
+```

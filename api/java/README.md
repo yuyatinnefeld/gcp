@@ -78,7 +78,7 @@ public class cloudStorage {
     }
 }
 ```
-### 8. test run in the IDEA and terminal
+### 8. test run in the IDE and terminal
 
 ```bash
 java -cp target/java-1.0.jar cloudStorage
