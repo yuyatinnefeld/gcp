@@ -1,5 +1,10 @@
 # GCP Project 2: Recommendation ML
 
+## About
+- Transfer data from Cloud Storage into Cloud SQL
+- Launch Dataproc cluster and run the ML model
+
+
 ## Info
 - Data: create ML Model 
 - GCP Services: Cloud SQL, Google Storage, Dataproc
