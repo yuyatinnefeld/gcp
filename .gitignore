@@ -18,6 +18,7 @@ project/boot/
 project/plugins/project/
 .classpath
 .cache
+__pycache__
 
 #spark specific
 checkpoint
@@ -45,6 +46,7 @@ lib
 api/java/conf
 /api/java/conf
 /conf
+conf
 
 #data
 data
@@ -55,3 +57,4 @@ data
 .venv
 /venv
 venv
+env
