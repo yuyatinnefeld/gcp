@@ -5,10 +5,10 @@ Info: https://cloud.google.com/storage/docs/moving-buckets
 Cloud Storage allows world-wide storage and retrieval of any amount of data at any time. You can use Cloud Storage for a range of scenarios including serving website content, storing data for archival and disaster recovery, or distributing large data objects to users via direct download.
 
 ## Storage Type
-Standard Storage: hot data : used everyday - $.02 per GB per month 	
-Nearline Storage: warm data: used once a month - $.01 per GB per month 	
-Coldline Storage: cold data: used once a quartal - $.004 per GB per month 	
-Archive Storage: backup data: used once a year - $.0012 per GB per month
+- Standard Storage: hot data : used everyday - $.02 per GB per month 	
+- Nearline Storage: warm data: used once a month - $.01 per GB per month 	
+- Coldline Storage: cold data: used once a quartal - $.004 per GB per month 	
+- Archive Storage: backup data: used once a year - $.0012 per GB per month
 
 ## Benefits
 - Low latency
