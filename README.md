@@ -66,9 +66,6 @@ There are 3 types to use GCP products and services.
 
 #### Client Libraries
 - [Python](https://github.com/yuyatinnefeld/gcp/tree/master/api/python)
-- C#
 - GO
 - [Java](https://github.com/yuyatinnefeld/gcp/tree/master/api/java)
 - Node.js
-- PHP
-- Ruby
