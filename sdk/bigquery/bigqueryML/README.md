@@ -5,6 +5,9 @@ BigQuery ML supports a variety of machine learning models and a complete machine
 - Model Creation Phase
 - Model Use Phase
 
+## How to choose the ML Model 
+![GitHub Logo](/images/ml-model.png)
+
 ## Process
 
 ![GitHub Logo](/images/bigqueryML.png)
