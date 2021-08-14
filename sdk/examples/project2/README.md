@@ -1,9 +1,8 @@
-# GCP Project 2: Recommendation ML
+# GCP Project 2 - Create the Recommendation ML
 
 ## About
 - Transfer data from Cloud Storage into Cloud SQL
-- Launch Dataproc cluster and run the ML model
-
+- Run the ML model on the Dataproc cluster
 
 ## Info
 - Data: create ML Model 

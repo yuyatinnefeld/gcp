@@ -1,4 +1,4 @@
-# Project 3 - BigQuery
+# GCP Project 3 - Create a ML Model via BigQueryML
 
 ## About
 - Create a logistic regression ML Models in BigQueryML
@@ -99,7 +99,9 @@ LIMIT 10;
 
 ## create a BigQuery dataset to store models
 - Dataset ID: ecommerce
-
+```bash
+bq mk ecommerce
+```
 ## Select a BigQuery ML model type
 - Model: logistic_reg
 

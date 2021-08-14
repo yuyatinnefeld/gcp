@@ -1,7 +1,12 @@
-# GCP Project 1: deploy cloud storage website 
+# GCP Project 1 - Deploy Cloud Storage Website
+
+## About
+- Install Github Website repo via GCE
+- Transform data from GCE into Cloud Storage
+- Deploy this via Cloud Storage 
 
 ## Info
-- Data: used earthquake data form google
+- Data: the public GCP earthquake dataset
 - GCP Services: GCE, Google Storage
 
 ## Create GCE instance

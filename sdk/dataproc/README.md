@@ -1,4 +1,4 @@
-#Spark + Dataproc + Cloud Storage
+# Dataproc (Hadoop + Spark) + Cloud Storage
 
 Info: https://cloud.google.com/dataproc/docs/tutorials/gcs-connector-spark-tutorial#scala
 
