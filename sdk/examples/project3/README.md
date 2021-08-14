@@ -1,12 +1,11 @@
 # Project 3 - BigQuery
 
 ## About
-- Data Analysis with the ecommerce dataset "Google Merchandise Store"
 - Create a logistic regression ML Models in BigQueryML
 - Evaluate the model and predict
 
 ## Info
-- Data: create ML Model 
+- Data: GCP public ecommerce dataset "Google Merchandise Store"
 - GCP Services: BigQuery, BigQueryML
 
 ## Setup BigQuwery
