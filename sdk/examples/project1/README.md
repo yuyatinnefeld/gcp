@@ -69,16 +69,16 @@ ls *.png
 
 
 ```bash
-PROJECT_ID= "yuyatinnefeld-testing"
 STORAGE_CLASS="Standard"
 REGION="europe-west3"
 OBJECT_NAME="earthquake"
-BUCKET_NAME=${OBJECT_NAME}-${PROJECT_ID}
+BUCKET_NAME=$DEVSHELL_PROJECT_ID-$OBJECT_NAME
 
-gsutil mb -p ${PROJECT_ID} \
+
+gsutil mb -p $DEVSHELL_PROJECT_ID \
     -c ${STORAGE_CLASS} \
     -l ${REGION} \
-    -b on gs://${BUCKET_NAME}
+    gs://$BUCKET_NAME/
 ```
 
 ## Copy VM Data to Cloud storage backet
@@ -86,8 +86,8 @@ gsutil mb -p ${PROJECT_ID} \
 copy the earthquakes of GCE (earthquakevm) to storage
 
 ```bash
-gsutil ls gs://earthquake-yuyatinnefeld-testing
-gsutil cp earthquakes.* gs://earthquake-yuyatinnefeld-testing
+gsutil ls gs://$DEVSHELL_PROJECT_ID
+gsutil cp earthquakes.* gs://$DEVSHELL_PROJECT_ID
 ```
 
 ## Delete GCE instance
@@ -97,9 +97,9 @@ INSTANCE_NAME="earthquakevm"
 ZONE_OF_INSTANCE="europe-west3-b"
 
 gcloud compute instances delete \
-    --project ${PROJECT_ID} \
-    --zone ${ZONE_OF_INSTANCE} \
-    ${INSTANCE_NAME}
+    --project $DEVSHELL_PROJECT_ID \
+    --zone $ZONE_OF_INSTANCE \
+    $INSTANCE_NAME
 
 ```
 
