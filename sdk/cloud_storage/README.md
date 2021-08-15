@@ -20,7 +20,6 @@ Cloud Storage allows world-wide storage and retrieval of any amount of data at a
 
 ### define ENV variables
 ```bash
-PROJECT=xxxxx
 REGION=xxxxx
 ZONE=xxxxx
 PROJECT_ID=xxxxx
@@ -30,7 +29,7 @@ BUCKET_NAME=xxxx
 
 ## create a bucket
 ```bash
-gsutil mb -p ${PROJECT} -c ${STORAGE_CLASS} -l ${REGION} -b on gs://${BUCKET_NAME}
+gsutil mb -p $DEVSHELL_PROJECT_ID -c ${STORAGE_CLASS} -l ${REGION} -b on gs://${BUCKET_NAME}
 ```
 ## check buckets
 ```bash
