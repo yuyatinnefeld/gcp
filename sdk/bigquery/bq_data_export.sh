@@ -12,7 +12,6 @@ FILE_NAME_2="movies.csv"
 FORMAT="CSV"
 DESTINATION_TABLE="query_result"
 
-docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk \
 bq query \
   --use_legacy_sql=false \
   --destination_table ${DATASET}.${DESTINATION_TABLE} \
@@ -23,8 +22,7 @@ bq query \
   ON ratings.movieId = movies.movieId
   '
 
-docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk \
 bq extract \
   --destination_format ${FORMAT} \
     ${DATASET}.${DESTINATION_TABLE} \
-    gs://${BUCKET_NAME}/query_result.csv
+    gs://${BUCKET_NAME}/${DESTINATION_TABLE}.csv

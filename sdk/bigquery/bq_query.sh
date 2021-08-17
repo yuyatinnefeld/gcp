@@ -10,7 +10,6 @@ DATASET="dataset_20210615"
 TABLE_NAME1="ratings"
 FILE_NAME_2="movies.csv"
 
-docker run --rm --volumes-from gcloud-config gcr.io/google.com/cloudsdktool/cloud-sdk \
 bq query \
     --use_legacy_sql=false \
     '

@@ -5,10 +5,10 @@
 - column-oriented data store logic (RDBMS => record-oriented)
 - query execution tree (distributed processing)
 
-## how to use BigQuery
+## How to use BigQuery
 - GCP Console
 - GCP SDK / bq 
-- BigQuery REST API / client library (Python, C#, Go, Java, Node.js, PHP, Ruby)
+- REST API / client library (Python, C#, Go, Java, Node.js, PHP, Ruby)
 
 
 ## Info
@@ -87,11 +87,9 @@ cd mv ml-20 PROJECT-PATH/data/ml-20
 
 ### define ENV variables
 ```bash
-PROJECT=xxxxx
 REGION=xxxxx
 ZONE=xxxxx
 PROJECT_ID=xxxxx
-STORAGE_CLASS=xxxx
 BUCKET_NAME=xxxx
 DATASET=xxxx
 TABLE_NAME1=xxxx
