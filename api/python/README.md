@@ -15,7 +15,7 @@ source ./venv/bin/activate (Mac) or env\Scripts\activate (Windows)
 ### 4. provide authentication credentials to your application code by setting the environment variable
 
 ```bash
-export GOOGLE_APPLICATION_CREDENTIALS=/.../gcp/conf/service_account.json
+export GOOGLE_APPLICATION_CREDENTIALS=/.../python/conf/service_account.json
 ```
 
 

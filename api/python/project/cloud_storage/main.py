@@ -1,5 +1,4 @@
 from cloud_storage import *
-from bigquery import *
 from data_generate import create_sample_df
 from datetime import datetime
 from pytz import timezone
@@ -26,27 +25,6 @@ def cloud_storage():
 
     df = create_sample_df(now)
     upload_csv(bucket_name, blob_name, df)
-
-def bigquery():
-    project_id = "xxxx"
-    dataset = "yyy"
-    table_name = "zzz"
-    table_id1 = project_id+"."+dataset+"."+table_name
-    table_ids = [table_id1]
-
-    create_table(project_id, dataset,table_name)
-
-    copy_table(table_ids, "gcptraining-314606.EDA.new_hira")
-
-    delete_table(table_id1)
-
-    my_query = """
-        SELECT PRODUCT, PRICE, DISCOUNT 
-        FROM `gcptraining-314606.EDA.campaigns` 
-        LIMIT 100
-    """
-
-    query(my_query)
 
 
 if __name__ == "__main__":
