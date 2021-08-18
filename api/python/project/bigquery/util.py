@@ -35,7 +35,7 @@ def create_table(project_id: str, dataset: str, table_name: str):
     )
 
 
-def query_run(my_query: str):
+def query_run(my_query: str) -> str:
 
     query_job = client.query(
         my_query,
@@ -51,6 +51,18 @@ def query_run(my_query: str):
         print(row.name)
 
     print("Started job: {}".format(query_job.job_id))
+    return query_job.job_id
+
+def job_status_print(job_id, location):
+    job = client.get_job(job_id, location=location)
+
+    print("Details for job {} running in {}:".format(job_id, location))
+    print(
+        "\tType: {}\n\tState: {}\n\tCreated: {}".format(
+            job.job_type, job.state, job.created
+        )
+    )
+
 
 def copy_table(table_ids: str, new_table_id: str):
     job = client.copy_table(table_ids, new_table_id)
