@@ -1,4 +1,4 @@
-from util import create_table, query_run, delete_table, copy_table, craete_dataset, job_status_print
+from util import create_table, query_run, delete_table, copy_table, craete_dataset, job_status_print, job_listing
 from datetime import datetime
 from pytz import timezone
 
@@ -31,9 +31,11 @@ if __name__ == "__main__":
         LIMIT 100
     """
 
-    job_id = query_run(my_query_1)
-    
-    job_status_print(job_id, "US")
+    #job_id = query_run(my_query_1)
+
+    #job_status_print(job_id, "US")
+
+    job_listing()
 
     #copy_table(table_ids, "project_id.dataset.tb1")
 

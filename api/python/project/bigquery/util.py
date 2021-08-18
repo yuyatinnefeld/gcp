@@ -1,4 +1,5 @@
 from google.cloud import bigquery
+import datetime
 
 client = bigquery.Client()
 
@@ -62,6 +63,25 @@ def job_status_print(job_id, location):
             job.job_type, job.state, job.created
         )
     )
+
+def job_listing():
+
+    print("Last 10 jobs:")
+    for job in client.list_jobs(max_results=10):
+        print("{}".format(job.job_id))
+
+    print("Jobs from the last ten minutes:")
+    ten_mins_ago = datetime.datetime.utcnow() - datetime.timedelta(minutes=10)
+    for job in client.list_jobs(min_creation_time=ten_mins_ago):
+        print("{}".format(job.job_id))
+
+    print("Last 10 jobs run by all users:")
+    for job in client.list_jobs(max_results=10, all_users=True):
+        print("{} run by user: {}".format(job.job_id, job.user_email))
+
+    print("Last 10 jobs done:")
+    for job in client.list_jobs(max_results=10, state_filter="DONE"):
+        print("{}".format(job.job_id))
 
 
 def copy_table(table_ids: str, new_table_id: str):
