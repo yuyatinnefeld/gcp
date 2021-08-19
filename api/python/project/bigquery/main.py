@@ -1,8 +1,10 @@
-from util import create_table, query_run, delete_table, copy_table, craete_dataset, job_status_print, job_listing
+from util import *
 from datetime import datetime
 from pytz import timezone
 
 project_id = "bigquery-sandbox-323313"
+regional_location="europe-west3"
+multi_location="EU"
 dataset_1 = "ds1"
 dataset_2 = "ds2"
 table_1 = "tb1"
@@ -19,24 +21,25 @@ if __name__ == "__main__":
     #create_table(project_id, dataset_1, table_1)
     #create_table(project_id, dataset_1, table_2)
 
-    my_query_1 = (
+    public_dataset_table = (
         'SELECT name FROM `bigquery-public-data.usa_names.usa_1910_2013` '
         'WHERE state = "TX" '
         'LIMIT 100'
     )
 
-    my_query_2 = """
-        SELECT PRODUCT, PRICE, DISCOUNT 
-        FROM `xxxxxxxxxx.dataset.table` 
+    my_custom_small_table = """
+        SELECT source, status 
+        FROM `bigquery-sandbox-323313.test.smalltb2` 
         LIMIT 100
     """
 
-    #job_id = query_run(my_query_1)
+    #job_id = query_run(my_custom_small_table)
 
     #job_status_print(job_id, "US")
 
-    job_listing()
+    #job_listing()
 
     #copy_table(table_ids, "project_id.dataset.tb1")
 
+    delete_dataset("ds_us")
     #delete_table(table_id1)
