@@ -1,4 +1,5 @@
 # Partitioning and Clustering
+Both partitioning and clustering can improve performance and reduce query cost.
 
 ## Partitioning
 A partitioned table is a special table that is divided into segments, called partitions, that make it easier to manage and query your data.
@@ -72,6 +73,8 @@ bq mk -t \
 
 ## Clustering
 When you create a clustered table in BigQuery, the table data is automatically organized based on the contents of one or more columns in the table’s schema.
+Clustering is used for the text columns or id columns. Clustering columns must be top-level, NON-REPEATED columns.
+You might not see a significant difference in query performance between a clustered and unclustered table if the table or partition is under 1 GB.
 
 ```sql
 CREATE TABLE <dataset>.<tablename> (transaction_date DATE, customer_id INT64, transaction_amount FLOAT)

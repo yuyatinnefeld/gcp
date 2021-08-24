@@ -16,6 +16,7 @@ UNIT_TIME1=HOUR
 UNIT_TIME2=DAY
 PARTITION_COLUMN=ts
 PARTITION_RANGE=customer_id,0,100,10
+LABEL='yt:dev'
 
 # create a time-unit column-partitioned table
 bq mk -t \
@@ -55,3 +56,37 @@ bq mk \
   --range_partitioning=${PARTITION_RANGE} \
   --require_partition_filter=BOOLEAN  \
   ${DATASET}.${TABLE_NAME1}
+
+
+# create clustering table (ex. customer_id)
+
+bq mk -t \
+--expiration 2592000 \
+--schema 'timestamp:timestamp,customer_id:string,transaction_amount:float' \
+--clustering_fields customer_id \
+--description "This is my clustered table" \
+--label ${LABEL} \
+${DATASET}.${TABLE_NAME1}
+
+bq query --use_legacy_sql=false \
+'CREATE TABLE
+   ${DATASET}.${TABLE_NAME1}
+ PARTITION BY
+   DATE(timestamp)
+ CLUSTER BY
+   customer_id AS
+ SELECT
+   *
+ FROM
+   `${DATASET}.${ORIGINAL_TABLE}`'
+
+# query the clustering table
+bq query --use_legacy_sql=false \
+'SELECT
+  SUM(totalSale)
+FROM
+  ${DATASET}.${TABLE_NAME1}
+WHERE
+  customer_id = 10000
+  AND transaction_amount > 1
+'
