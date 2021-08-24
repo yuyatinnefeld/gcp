@@ -36,7 +36,7 @@ gsutil mb -p $DEVSHELL_PROJECT_ID -c ${STORAGE_CLASS} -l ${REGION} -b on gs://${
 gsutil ls
 ```
 
-##upload cloud file into the gs bucket
+## copy a gs bucket
 ```bash
 gsutil cp -r gs://${SOURCE_BUCKET}/* gs://${DESTINATION_BUCKET}
 ```
@@ -55,3 +55,4 @@ gsutil cp gs://{BUCKET_NAME}/{FILE_NAME} {LOCAL_FILE_PATH}
 ```bash
 gsutil rm -r gs://{BUCKET_NAME}
 ```
+
