@@ -75,7 +75,12 @@ bq load \
     ${DATASET}.${TABLE_NAME1} \
     gs://${BUCKET_NAME}/${FILE_NAME_1}
 
-    
+# load ORC file from cloud storage
+bq load \
+  --source_format=ORC \
+  ${DATASET}.${TABLE_NAME1} 
+  gs://${BUCKET_NAME}/${FILE_NAME_1}
+
 # export table to the cloud storage
 
 ## storage - csv 

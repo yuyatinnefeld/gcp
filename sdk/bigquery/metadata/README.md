@@ -1,122 +1,129 @@
-# Practice using INFORMATION_SCHEMA and __TABLES__ to explore metadata
+# Metadata with INFORMATION_SCHEMA
 
 ## Querying dataset metadata
 BigQuery stores metadata about each object stored in it. You can query these metadata tables to get a better understanding of a dataset and it's contents. [See documentation.](https://cloud.google.com/bigquery/docs/dataset-metadata)
 
-## Query 1: How large are the tables within a given dataset?
-Choose a public dataset name from the previous query. We will choose `baseball` for this example but feel free to modify (try other datasets like `new_york` or `san_francisco`).
+
+## INFORMATION_SCHEMA is a series of views that provide access to:
+- dataset metadata
+- job metadata
+- job timeline metadata
+- access control metadata
+- reservation metadata
+- streaming metadata
+- routine metadata
+- table metadata
+- table snapshot metadata
+- view metadata
+
+## Pricing 
+On-Demand: 10 MB is the minimum billing amount for on-demand queries against INFORMATION_SCHEMA.
+Flat-Rate: Queries against INFORMATION_SCHEMA views and tables consume your purchased BigQuery slots
+
+
+## Dataset qualifier (Metadata for Tables)
 
 ```sql
--- Querying table metadata to get table size
--- Pick any dataset in the bigquery-public-dataset and tell me
-
--- How many tables it contains?
--- What is the largest table in GB?
--- What is the largest table in row count?
-
-SELECT 
-  dataset_id,
-  table_id,
-  -- Convert bytes to GB.
-  ROUND(size_bytes/pow(10,9),2) as size_gb,
-  -- Convert UNIX EPOCH to a timestamp.
-  TIMESTAMP_MILLIS(creation_time) AS creation_time,
-  TIMESTAMP_MILLIS(last_modified_time) as last_modified_time,
-  row_count,
-  CASE 
-    WHEN type = 1 THEN 'table'
-    WHEN type = 2 THEN 'view'
-  ELSE NULL
-  END AS type
-FROM
-  -- Replace baseball with a different dataset:
-  -- `<project-id>.<dataset>.__TABLES__`
-  `bigquery-public-data.baseball.__TABLES__`
-ORDER BY size_gb DESC;
+SELECT * FROM myDataset.INFORMATION_SCHEMA.TABLES;
 ```
 
-## Query 2: How many columns of data are present?
+```bash
+bq query --nouse_legacy_sql \
+'SELECT * FROM myDataset.INFORMATION_SCHEMA.TABLES'
+```
+
+
+Listing - INFORMATION_SCHEMA.SCHEMATA: 
+```bash
+COLUMNS
+COLUMN_FIELD_PATHS
+PARAMETERS
+ROUTINES
+ROUTINE_OPTIONS
+TABLES
+TABLE_OPTIONS
+VIEWS
+```
+
+## Region qualifier (Metadata for Datasets)
 
 ```sql
--- For the dataset you chose, how many columns of data are present?
-
-SELECT * FROM 
-  -- Replace baseball with a different dataset:
- `bigquery-public-data.baseball.INFORMATION_SCHEMA.COLUMNS`;
+SELECT * FROM region-eu.INFORMATION_SCHEMA.JOBS_TIMELINE_BY_PROJECT;
 ```
 
-## Query 3: Are any columns partitioned or clustered columns?
 
-```sql
--- Are there any partitioned or clustered columns?
-
-SELECT * FROM 
-  -- Replace baseball with a different dataset:
- `bigquery-public-data.baseball.INFORMATION_SCHEMA.COLUMNS`
-WHERE 
-  is_partitioning_column = 'YES' OR clustering_ordinal_position IS NOT NULL;
+```bash
+bq query --nouse_legacy_sql \
+'SELECT * FROM region-eu.INFORMATION_SCHEMA.JOBS_TIMELINE_BY_PROJECT'
 ```
 
-## Query 4: Querying metadata across datasets
-
-```sql
--- Question: If you wanted to query across multiple datasets, how could you do it?
--- https://stackoverflow.com/questions/43457651/bigquery-select-tables-from-all-tables-within-project
--- Answer: With a UNION or a python script to iterate through each dataset in `bq ls`
-
-WITH ALL__TABLES__ AS (
-  SELECT * FROM `bigquery-public-data.baseball.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.bls.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.census_bureau_usa.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.cloud_storage_geo_index.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.cms_codes.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.fec.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.genomics_cannabis.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.ghcn_d.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.ghcn_m.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.github_repos.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.hacker_news.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.irs_990.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.medicare.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.new_york.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.nlm_rxnorm.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.noaa_gsod.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.open_images.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.samples.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.san_francisco.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.stackoverflow.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.usa_names.__TABLES__` UNION ALL
-  SELECT * FROM `bigquery-public-data.utility_us.__TABLES__` 
-)
-SELECT *
-FROM ALL__TABLES__
-ORDER BY row_count DESC -- Top 10 tables with the most rows
-LIMIT 10;
+Option by Region qualifiers: 
+```bash
+ASSIGNMENT_CHANGES_BY_PROJECT
+ASSIGNMENTS_BY_PROJECT
+CAPACITY_COMMITMENT_CHANGES_BY_PROJECT
+CAPACITY_COMMITMENTS_BY_PROJECT
+JOBS_BY_ORGANIZATION
+JOBS_BY_FOLDER
+JOBS_BY_PROJECT
+JOBS_BY_USER
+JOBS_TIMELINE_BY_ORGANIZATION
+JOBS_TIMELINE_BY_FOLDER
+JOBS_TIMELINE_BY_PROJECT
+JOBS_TIMELINE_BY_USER
+OBJECT_PRIVILEGES
+RESERVATION_CHANGES_BY_PROJECT
+RESERVATIONS_PROJECT
+STREAMING_TIMELINE_BY_ORGANIZATION
+STREAMING_TIMELINE_BY_FOLDER
+STREAMING_TIMELINE_BY_PROJECT
+SCHEMATA
+SCHEMATA_OPTIONS
 ```
 
-Which table had the most rows in the previous example?
+## Job Metadata
+You can query the INFORMATION_SCHEMA.JOBS_BY_* view to retrieve real-time metadata about BigQuery jobs.
+The Views contain the current job and the history of jobs completed in the past 180 days.
 
-## Optional: Query 5: Viewing all datasets within a GCP project
 
-If you already have BigQuery datasets and tables stored on your project, you can quickly view metadata for all your datasets using `INFORMATION_SCHEMA`. The below query shows just a simple example of viewing when each dataset in your project was created. 
-
+Calculate AVG Slots
 ```sql
 SELECT
- s.*,
- TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), creation_time, DAY) AS days_live,
- option_value AS dataset_description
-FROM
- `<your-project-name>.INFORMATION_SCHEMA.SCHEMATA` AS s
- LEFT JOIN `<your-project-name>.INFORMATION_SCHEMA.SCHEMATA_OPTIONS` AS so
- USING (schema_name)
-
-WHERE so.option_name = 'description'
- 
-ORDER BY last_modified_time DESC
-
-LIMIT 15;
+   SUM(total_slot_ms) / (1000*60*60*24*7) AS avg_slots
+ FROM `region-us`.INFORMATION_SCHEMA.JOBS_BY_PROJECT
+ WHERE
+   -- Filter by the partition column first to limit the amount of data scanned. Eight days
+   -- allows for jobs created before the 7 day end_time filter.
+   creation_time BETWEEN TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 8 DAY) AND CURRENT_TIMESTAMP()
+   AND job_type = "QUERY"
+   AND statement_type != "SCRIPT"
+   AND end_time BETWEEN TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY) AND CURRENT_TIMESTAMP()
 ```
 
-Note: You will need to replace <your-project-name> with a BigQuery project you can query against that has existing datasets. 
- 
-Final Note: You can use the data from `INFORMATION_SCHEMA` to creatively 're-create' your entire dataset with SQL DDL. See the below example link: https://cloud.google.com/bigquery/docs/information-schema-tables#advanced_example
+Most Expensive Jobs
+```sql
+ SELECT
+   job_id,
+   job_type,
+   priority,
+   state,
+   user_email,
+   total_bytes_processed,
+   total_slot_ms
+ FROM `region-eu`.INFORMATION_SCHEMA.JOBS_BY_PROJECT
+ WHERE EXTRACT(DATE FROM  creation_time) = current_date()
+ ORDER BY total_bytes_processed DESC
+ LIMIT 10
+```
+
+daily based performance reporting
+```sql
+SELECT
+EXTRACT(DAY FROM period_start) as period_start,
+SUM(period_slot_ms) AS total_slot_ms,
+SUM(IF(state = "PENDING", 1, 0)) as PENDING,
+SUM(IF(state = "RUNNING", 1, 0)) as RUNNING
+FROM
+ `region-eu`.INFORMATION_SCHEMA.JOBS_TIMELINE_BY_PROJECT
+GROUP BY period_start
+```
