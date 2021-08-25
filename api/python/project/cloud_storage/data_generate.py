@@ -1,8 +1,9 @@
 import pandas as pd
 import random
+from datetime import datetime
 
 
-def create_sample_df(now):
+def create_sample_df(now: datetime)-> pd.DataFrame:
 
     FOODS = [
         {'name':'クリスマスケーキ', 'price':3000},

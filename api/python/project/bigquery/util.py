@@ -86,18 +86,20 @@ def query_run(my_query: str) -> str:
     query_job = client.query(
         my_query,
         job_config=bigquery.QueryJobConfig(
-            labels={"example-label": "example-value"}, maximum_bytes_billed=1000000
+            labels={"job-type": "batch"}, maximum_bytes_billed=100000000
         ),
-        job_id_prefix="my_job_123_",
+        job_id_prefix="etl_job_123_",
     )
 
     print("The query data:")
     rows = query_job.result()  # Waits for query to finish
     for row in rows:
-        print(row.name)
+        #print(row)
+        print("Col1: {} - Col2: {}".format(row.day, row.month))
 
     print("Started job: {}".format(query_job.job_id))
     return query_job.job_id
+
 
 def job_status_print(job_id, location):
     job = client.get_job(job_id, location=location)
