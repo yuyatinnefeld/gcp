@@ -18,4 +18,4 @@
 
 ## Data Load Implementation
 
-### [Details] (https://github.com/yuyatinnefeld/gcp/tree/master/sdk/bigquery/codes)
+### [Details] (https://github.com/yuyatinnefeld/gcp/tree/master/sdk/bigquery/loading_data/bq_data_load.sh)

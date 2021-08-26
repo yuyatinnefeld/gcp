@@ -43,60 +43,6 @@ FROM `bigquery-public-data.covid19_ecdc_eu.covid_19_geographic_distribution_worl
 LIMIT 10
 '
 
-# load data from google sheets
-gcloud auth login --enable-gdrive-access
-
-SCHEMA=name:STRING,age:STRING,city:STRING
-bq mk \
-    --external_table_definition=${SCHEMA}:INTEGER@GOOGLE_SHEETS=https://drive.google.com/open?id=xxxxxxxxxxxx \
-    ${DATASET}.${TABLE_NAME1}
-
-
-# load CSV file from cloud storage
-bq load \
-    --source_format=${FORMAT_CSV} \
-    --skip_leading_rows ${SKIP_ROWS} \
-    --autodetect \
-    ${DATASET}.${TABLE_NAME1} \
-    gs://${BUCKET_NAME}/${FILE_NAME_1}
-
-# load AVRO file from cloud storage 
-bq load \
-    --source_format=${FORMAT_AVRO} \
-    ${DATASET}.${TABLE_NAME1} \
-    gs://${BUCKET_NAME}/${FILE_NAME_1}
-
-# load JSON file from cloud storage 
-# BigQuery only accepts new-line delimited JSON 
-# see the myschema.json
-bq load \
-    --autodetect \
-    --source_format=${FORMAT_JSON} \
-    ${DATASET}.${TABLE_NAME1} \
-    gs://${BUCKET_NAME}/${FILE_NAME_1}
-
-# load ORC file from cloud storage
-bq load \
-  --source_format=ORC \
-  ${DATASET}.${TABLE_NAME1} 
-  gs://${BUCKET_NAME}/${FILE_NAME_1}
-
-# export table to the cloud storage
-
-## storage - csv 
-bq --location=${LOCATION} extract \
-    --destination_format ${FORMAT_CSV} \
-    --compression ${COMPRESSION_GZIP} \
-    ${DATASET}.${TABLE_NAME1} \
-    gs://${BUCKET_NAME}/${FILE_NAME_1}.csv
-
-## storage - avro
-bq --location=${LOCATION} extract \
-    --destination_format ${FORMAT_AVRO} \
-    --compression ${COMPRESSION_SNAPPY} \
-    ${DATASET}.${TABLE_NAME1} \
-    gs://${BUCKET_NAME}/${FILE_NAME_2}.avro
-
 # show tables
 bq show ${DATASET}.${TABLE_NAME1}
 bq show ${DATASET}.${TABLE_NAME2}
@@ -124,6 +70,14 @@ bq query --nouse_legacy_sql \
    `bigquery-sandbox-323313`.ds_eu.INFORMATION_SCHEMA.COLUMNS
  WHERE
    table_name="tb1"'
+
+# load CSV file from cloud storage
+bq load \
+    --source_format=${FORMAT_CSV} \
+    --skip_leading_rows ${SKIP_ROWS} \
+    --autodetect \
+    ${DATASET}.${TABLE_NAME1} \
+    gs://${BUCKET_NAME}/${FILE_NAME_1}
 
 
 # copy table
