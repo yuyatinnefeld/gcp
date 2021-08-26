@@ -81,14 +81,14 @@ def delete_table(table_id: str):
     print("Deleted table '{}'.".format(table_id))
 
 
-def query_run(my_query: str) -> str:
+def interactive_query(my_query: str) -> str:
 
     query_job = client.query(
         my_query,
         job_config=bigquery.QueryJobConfig(
-            labels={"job-type": "batch"}, maximum_bytes_billed=100000000
+            labels={"job-type": "analyze"}, maximum_bytes_billed=100000000
         ),
-        job_id_prefix="etl_job_123_",
+        job_id_prefix="datascience_job_123_",
     )
 
     print("The query data:")
@@ -99,6 +99,20 @@ def query_run(my_query: str) -> str:
 
     print("Started job: {}".format(query_job.job_id))
     return query_job.job_id
+
+def batch_query(my_query: str):
+    
+    job_config = bigquery.QueryJobConfig(
+        priority=bigquery.QueryPriority.BATCH
+    )
+
+    query_job = client.query(my_query, job_config=job_config)
+
+    query_job = client.get_job(
+        query_job.job_id, location=query_job.location
+    )
+
+    print("Job {} is currently in state {}".format(query_job.job_id, query_job.state))
 
 
 def job_status_print(job_id, location):

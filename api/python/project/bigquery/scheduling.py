@@ -1,11 +1,12 @@
-from google.cloud import bigquery
-import datetime
+from google.cloud import bigquery_datatransfer
+from datetime import date
 
-client = bigquery.Client()
+transfer_client = bigquery_datatransfer.DataTransferServiceClient()
+today = date.today()
+timestamp = today.strftime("%Y%m%d_%H%M%S")
 
-def setup_scheduling(project_id: str, dataset_id: str):
-
-    service_account_name = "rewe-test@bigquery-sandbox-323313.iam.gserviceaccount.com"
+def create_scheduled_query(project_id: str, dataset_id: str):
+    service_account_name = "rw-yuyatinnefeld@yygcplearning.iam.gserviceaccount.com"
 
     # Use standard SQL syntax for the query.
     query_string = """
@@ -20,11 +21,11 @@ def setup_scheduling(project_id: str, dataset_id: str):
 
     transfer_config = bigquery_datatransfer.TransferConfig(
         destination_dataset_id=dataset_id,
-        display_name="Your Scheduled Query Name",
+        display_name="YT Scheduled Query - Display Name",
         data_source_id="scheduled_query",
         params={
             "query": query_string,
-            "destination_table_name_template": "your_table_{run_date}",
+            "destination_table_name_template": f"yt_table_{timestamp}",
             "write_disposition": "WRITE_TRUNCATE",
             "partitioning_field": "",
         },
@@ -40,3 +41,12 @@ def setup_scheduling(project_id: str, dataset_id: str):
     )
 
     print("Created scheduled query '{}'".format(transfer_config.name))
+
+
+def delete_scheduled_query(transfer_config_name: str):
+    try:
+        transfer_client.delete_transfer_config(name=transfer_config_name)
+    except google.api_core.exceptions.NotFound:
+        print("Transfer config not found.")
+    else:
+        print(f"Deleted transfer config: {transfer_config_name}")
