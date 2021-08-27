@@ -54,15 +54,31 @@ If your external data is stored in ORC or Parquet, the number of bytes charged i
     - User-level: 10 TB per day
 
 ## Best Practices for controlling cost
+
+### Query
 - Avoid SELECT * / query only the columns you need
-- Partitioning your tables by date
-- Use Clustering if you can
 - Don't run queries to explore or preview table data. > Use the Preview Tab
+- If query performance is a top priority, do not use an external data source. external data source for ETL or Frequently changing data
+- When querying wildcard tables, use the most granular prefix possible.
+- Reduce data before using a JOIN
+- Use WITH clauses primarily for readability.
+- When querying a partitioned table, use the _PARTITIONTIME pseudo column to filter the partitions
+
+### Table
+- Partitioning your tables by date
+- Use clustered table if you can
+- Use streaming inserts only if your data must be immediately available
+- Use nested (STRUCT) and repeated fields (ARRAY) for denormalization (Avoid denormalization in these use cases: star schema, BQ cannot replace OLTP system)
+- Avoid self-joins. Use a window (analytic) function instead.
+### bq Command-line / API
 - In the bq command-line tool, use the bq head command
 - In the API, use tabledata.list to retrieve table data
-- Before running queries, preview them to estimate costs
 - Limit query costs by restricting the number of bytes billed (--maximum_bytes_billed=1000000)
+
+### Planning & Control
+- Before running queries, preview them to estimate costs
 - [Create a dashboard to view your billing data](https://cloud.google.com/billing/docs/how-to/export-data-bigquery-setup#how-to-enable)
-- Use streaming inserts only if your data must be immediately available
+
+
 
 
