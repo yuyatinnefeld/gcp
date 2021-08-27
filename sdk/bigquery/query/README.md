@@ -1,7 +1,6 @@
 # Query BQ data
 
 ## Query Types
-
 - Interactive queries (default)
 - Batch queries
 
