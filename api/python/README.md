@@ -6,9 +6,9 @@
 python -m venv ./venv
 source ./venv/bin/activate (Mac) or env\Scripts\activate (Windows)
 ```
-### 1. create GCP project and activate cloud storage & cloud storage API
+### 1. create a GCP project and activate the cloud storage & cloud storage API
 
-### 2. create GCP service account (From the Role list, select Project > Owner.)
+### 2. create a GCP service account (From the Role list, select Project > Owner.)
 
 ### 3. download the service account json key
 
