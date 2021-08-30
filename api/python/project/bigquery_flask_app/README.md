@@ -15,4 +15,4 @@ flask run
 3. open the domain
 > http://127.0.0.1:5000/
 
-![GitHub Logo](/images/flask_bq_app.png)
+![GitHub Logo](/images/flask_bg_app.png)
