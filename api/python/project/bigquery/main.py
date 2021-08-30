@@ -67,7 +67,7 @@ if __name__ == "__main__":
     tcn1="projects/928012749692/locations/europe/transferConfigs/6127a765-0000-25e1-9405-089e082fdc00"
     tcn2="projects/928012749692/locations/europe/transferConfigs/6127b2f9-0000-2e9a-a324-30fd380f6764"
     tcn3="projects/928012749692/locations/europe/transferConfigs/61421d92-0000-20fd-9a39-089e08213e78"
-    tcn_list = [tcn1, tcn2, tcn3]
+    transfer_config_list = [tcn1, tcn2, tcn3]
     
-    for tcn in tcn_list:
+    for tcn in transfer_config_list:
         delete_scheduled_query(tcn)
