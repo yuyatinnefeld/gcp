@@ -1,24 +1,21 @@
-from google_auth_oauthlib import flow
 from google.cloud import bigquery
+import datetime
 
 
-def get_credentials(credential_path):
-    launch_browser = True
+client = bigquery.Client()
 
-    appflow = flow.InstalledAppFlow.from_client_secrets_file(
-        credential_path, scopes=["https://www.googleapis.com/auth/bigquery"]
+def status_print(job_id, location):
+    job = client.get_job(job_id, location=location)
+
+    print("Details for job {} running in {}:".format(job_id, location))
+    print(
+        "\tType: {}\n\tState: {}\n\tCreated: {}".format(
+            job.job_type, job.state, job.created
+        )
     )
 
-    if launch_browser:
-        appflow.run_local_server()
-    else:
-        appflow.run_console()
 
-    credentials = appflow.credentials
-
-    return credentials
-
-def show_query_jobs(credentials, project_id, job_results_count):
+def list_jobs(credentials, project_id, job_results_count):
     client = bigquery.Client(project=project_id, credentials=credentials)
 
     print("Last {} jobs run by all users:".format(job_results_count))
@@ -60,11 +57,3 @@ def show_query_jobs(credentials, project_id, job_results_count):
     print("\n 🤖 ########## Query Bytes Consume ########## 🤖")
     print("Bytes Billed: {}".format(sum_bytes_billed))
     print("Bytes Processed: {}".format(sum_bytes_processed))
-
-if __name__ == "__main__":
-    credential_path = "conf/client_secret_oauth.json"
-    project_id = "yygcplearning"
-    job_results_count=20
-
-    credentials = get_credentials(credential_path)
-    show_query_jobs(credentials, project_id, job_results_count)
