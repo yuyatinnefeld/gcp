@@ -1,4 +1,4 @@
-# Compute Engine
+# GEC (Google Compute Engine)
 
 1. connect with your GCP project
 ```bash
