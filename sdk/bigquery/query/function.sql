@@ -50,3 +50,9 @@ LANGUAGE js AS r"""
   """;
 SELECT customGreeting(names) as everyone
 FROM UNNEST(["Hannah", "Max", "Jakob"]) AS names;
+
+
+CREATE FUNCTION ds_eu.multiply_by_three(x INT64) AS (x * 3);
+
+SELECT my_dataset.multiply_by_three(5) AS result; -- returns 15
+
