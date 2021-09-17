@@ -58,3 +58,4 @@ data
 /venv
 venv
 env
+*.env
