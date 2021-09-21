@@ -1,9 +1,6 @@
 # BigQuery + dbt - Data transform Project
 
 ## initial setup
-0. create 2 bq datasets
-- ds_dbt_dev
-- ds_dbt_prod
 
 1. install packages
 ```bash
@@ -32,7 +29,7 @@ dbt_bq:
     dev:
       type: bigquery
       method: service-account
-      project: yygcplearning
+      project: yygcplearning #GCP dev project
       dataset: ds_dbt
       location: EU
       threads: 1
@@ -43,7 +40,7 @@ dbt_bq:
     prod:
       type: bigquery
       method: service-account
-      project: yygcplearning
+      project: yygcplearning #GCP prod project
       dataset: ds_dbt
       location: EU
       threads: 1
