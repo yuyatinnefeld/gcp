@@ -1,5 +1,9 @@
 # BigQuery + dbt - Data transform Project
 
+## Gitlab
+
+https://gitlab.com/yuyatinnefeld/bigquery-dbt-cicd
+
 ## initial setup
 
 1. install packages
