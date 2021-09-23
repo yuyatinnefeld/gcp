@@ -1,0 +1,15 @@
+resources:
+- name: the-first-bucket
+  type: storage.v1.bucket
+  properties:
+    predefinedAcl: projectPrivate
+    projection: full
+    location: EU
+    storageClass: STANDARD
+- name: the-second-bucket
+  type: storage.v1.bucket
+  properties:
+    predefinedAcl: projectPrivate
+    projection: full
+    location: EU
+    storageClass: STANDARD
