@@ -1,0 +1,94 @@
+image: 
+  name: hashicorp/terraform:light
+  entrypoint: [""]
+
+before_script:
+  - echo "👾Terraform Dataproc👾"
+  - mkdir -p ./creds
+  - echo ${GCP_SERVICE_ACCOUNT_KEY} >> ./creds/serviceaccount.json
+
+stages:
+  - build
+  - validate
+  - plan
+  - apply-bucket
+  - upload
+  - apply-dataproc
+  - run-dataproc
+  - destory-all
+
+##### validate stage #######################################################
+
+validate:
+  stage: validate
+  script:
+    - terraform init
+    - terraform validate
+  when: manual
+
+##### plan stage #######################################################
+plan:
+  stage: plan
+  script:
+    - terraform init
+    - terraform plan
+  when: manual
+
+##### apply bucket stage #######################################################
+apply-bucket:
+  stage: apply-bucket
+  script:
+    - terraform init
+    - terraform apply -auto-approve -target=google_storage_bucket.spark_project_bucket
+  when: manual
+
+##### upload stage #######################################################
+upload-files:
+  stage: upload
+  image: google/cloud-sdk:latest
+  script:
+    - gcloud auth activate-service-account --key-file ./creds/serviceaccount.json
+    - gcloud config set project ${GCP_PROJECT_ID}
+    - gsutil cp -r ./test-input-data/ gs://yygcplearning-spark-project/gitlab/test-input-data
+    - gsutil cp -r ./src/ gs://yygcplearning-spark-project/gitlab/src
+  when: manual
+
+##### apply dataproc stage #######################################################
+apply-dataproc:
+  stage: apply-dataproc
+  script:
+    - terraform init
+    - terraform apply -auto-approve -target=google_dataproc_cluster.mycluster
+  when: manual
+
+##### dataproc run stage #######################################################
+.dataproc-run-template:
+  stage: run-dataproc
+  image: google/cloud-sdk:latest
+  before_script:
+    - mkdir -p ./creds
+    - echo ${GCP_SERVICE_ACCOUNT_KEY} >> ./creds/serviceaccount.json
+    - gcloud auth activate-service-account --key-file ./creds/serviceaccount.json
+    - gcloud config set project ${GCP_PROJECT_ID}
+    - export BUCKET_NAME="yygcplearning-spark-project"
+  when: manual
+
+dataproc-run1:
+  extends: .dataproc-run-template
+  script:
+    - gcloud dataproc jobs submit pyspark gs://${BUCKET_NAME}/gitlab/src/spark-test-run.py \
+      --cluster=my-nice-dataproc-cluster \
+      --region=europe-west3 \
+
+dataproc-run1:
+  extends: .dataproc-run-template
+  script:
+    - gcloud dataproc jobs submit pyspark gs://${BUCKET_NAME}/gitlab/src/word-count.py --cluster=my-nice-dataproc-cluster --region=europe-west3 -- gs://${BUCKET_NAME}/gitlab/test-input-data/rose.txt gs://${BUCKET_NAME}/output/
+
+##### destroy all stage #######################################################
+destroy:
+  stage: destory-all
+  script:
+    - terraform init
+    - terraform destroy -auto-approve
+  when: manual

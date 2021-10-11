@@ -1,0 +1,14 @@
+{
+    "products" : [
+        {"product_id":1,"product_name":"WurstSushi-A","target_segment":"1","price":2},
+        {"product_id":2,"product_name":"WurstSushi-B","target_segment":"1","price":3},
+        {"product_id":3,"product_name":"WurstSushi-C","target_segment":"3","price":5},
+        {"product_id":4,"product_name":"WurstSushi-D","target_segment":"3","price":4},
+        {"product_id":5,"product_name":"WurstSushi-E","target_segment":"2","price":10},
+        {"product_id":6,"product_name":"WurstSushi-F","target_segment":"1","price":4.5},
+        {"product_id":7,"product_name":"WurstSushi-G","target_segment":"1","price":2.7},
+        {"product_id":8,"product_name":"WurstSushi-H","target_segment":"4","price":6},
+        {"product_id":9,"product_name":"WurstSushi-I","target_segment":"2","price":7},
+        {"product_id":10,"product_name":"WurstSushi-J","target_segment":"3","price":5}        
+    ]
+}

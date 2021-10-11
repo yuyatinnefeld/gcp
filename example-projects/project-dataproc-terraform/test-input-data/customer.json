@@ -1,0 +1,14 @@
+{
+    "customers" : [
+        {"customer_id":1,"gender":"female","segment_number":"4","segment_type":"hipster", "visited_store":2},
+        {"customer_id":2,"gender":"female","segment_number":"2","segment_type":"delux", "visited_store":4},
+        {"customer_id":3,"gender":"female","segment_number":"2","segment_type":"delux", "visited_store":3},
+        {"customer_id":4,"gender":"female","segment_number":"4","segment_type":"hipster", "visited_store":2},
+        {"customer_id":5,"gender":"female","segment_number":"1","segment_type":"cheap-first", "visited_store":2},
+        {"customer_id":6,"gender":"female","segment_number":"3","segment_type":"green-lover", "visited_store":4},
+        {"customer_id":7,"gender":"male","segment_number":"4","segment_type":"hipster", "visited_store":5},
+        {"customer_id":8,"gender":"female","segment_number":"3","segment_type":"green-lover", "visited_store":1},
+        {"customer_id":9,"gender":"female","segment_number":"1","segment_type":"cheap-first", "visited_store":5},
+        {"customer_id":10,"gender":"male","segment_number":"3","segment_type":"green-lover", "visited_store":10}
+    ]
+}
