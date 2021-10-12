@@ -8,6 +8,7 @@ from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 from pyspark.sql.functions import when
 from datetime import date
+from google.cloud import storage
 
 
 def get_input_records_df(input_records_files: str) -> pyspark.sql.dataframe.DataFrame:
@@ -36,23 +37,28 @@ def save_result_json(df_output: pyspark.sql.dataframe.DataFrame, output_file_nam
     print("🎉 the output file is stored in jsonl format 🎉")
 
 
+def save_into_bucket(df_output: pyspark.sql.dataframe.DataFrame, bucket_name:str,output_file_name: str):
+    """This function saves the result in the JSONL format in the GCS bucket"""
+    # create a blob
+    bucket = storage.Bucket(storage_client, "yygcplearning-spark-project", user_project="yygcplearning")
+    blob = bucket.blob(output_file_name)
+    # df to jsonl
+    pandasDF = df_output.toPandas()
+    json_output = pandasDF.to_json(orient="records")[1:-1].replace("},{", "} {")
+    # upload the blob 
+    blob.upload_from_string(
+        data=json_output,
+        content_type='application/octet-stream'
+    )
+
 if __name__ == "__main__":
     logger = logging.getLogger("py4j")
     logger.setLevel(logging.WARN)
     spark = SparkSession.builder.master("local[2]").appName("Engine").getOrCreate()
 
-    customer_data_list=json.loads(sys.argv[1])
-    store_data_list=json.loads(sys.argv[2])
-    product_data_list=json.loads(sys.argv[3])
-    #output_uri=sys.argv[4]
-    argv_num = 3
-
-    if len(sys.argv) != argv_num:
-        raise Exception("Exactly 4 arguments are required: <inputUri> <outputUri>")
-
-    #customer_data_list: Final[str] = "gs://test-input-data/customer*.jsonl"     #test-data/customer*.jsonl" 
-    #store_data_list: Final[str] =  "gs://test-input-data/store*.jsonl"          #"test-data/store*.jsonl"
-    #product_data_list: Final[str] = "gs://test-input-data/product*.jsonl"       #test-data/product*.jsonl
+    customer_data_list: Final[str] = "gs://yygcplearning-spark-project/gitlab/test-input-data/customer*.jsonl"     #test-data/customer*.jsonl" 
+    store_data_list: Final[str] =  "gs://yygcplearning-spark-project/gitlab/test-input-data/store*.jsonl"          #"test-data/store*.jsonl"
+    product_data_list: Final[str] = "gs://yygcplearning-spark-project/gitlab/test-input-data/product*.jsonl"       #test-data/product*.jsonl
 
     df_customer = get_input_records_df(customer_data_list)
     df_store = get_input_records_df(store_data_list)
@@ -66,9 +72,9 @@ if __name__ == "__main__":
     join_key_2 = df_store.store_id
     df_joined = get_jonined_df(df_joined, df_store, join_key_1, join_key_2)
 
-    #today = date.today()
-    #output_file_name = f"gs://test-output-data/output_{today}.jsonl" #"test-data/output_{today}.jsonl 
-    #save_result_json(df_joined, output_file_name)
-    #df_joined.saveAsTextFile(sys.argv[4])
-
+    today = date.today()
+    bucket_name = "gs://yygcplearning-spark-project" # this bucket has to be exist
+    output_file_name = f"output_{today}.jsonl"
+    storage_client = storage.Client()
+    save_into_bucket(df_joined, bucket_name, output_file_name)
     spark.stop()
