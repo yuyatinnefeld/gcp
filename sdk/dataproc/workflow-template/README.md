@@ -1,4 +1,5 @@
 # Dataproc Workflow Template
+ Workflow is an operation that runs a Directed Acyclic Graph (DAG) of jobs on a cluster. If the workflow uses a managed cluster, it creates the cluster, runs the jobs, and then deletes the cluster when the jobs are finished.
 
 - provides a flexible and easy-to-use mechanism for managing and executing workflows
 - automates Spark and Hadoop Workloads on GCP
