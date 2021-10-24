@@ -1,0 +1,27 @@
+jobs:
+- pysparkJob:
+    args:
+    - gs://dataproc-temp-yt-123456/input/
+    - gs://dataproc-temp-yt-123456/output
+    - gs://dataproc-temp-yt-123456/model
+    mainPythonFileUri: gs://dataproc-temp-yt-123456/src/pyspark_sa.py
+  stepId: prediction-pyspark
+labels:
+  project: demo-dataproc
+placement:
+  managedCluster:
+    clusterName: demo-three-node-cluster-1234
+    config:
+      gceClusterConfig:
+        zoneUri: europe-west1-b
+      masterConfig:
+        diskConfig:
+          bootDiskSizeGb: 500
+        machineTypeUri: n1-standard-4
+      softwareConfig:
+        imageVersion: 1.3-deb9
+      workerConfig:
+        diskConfig:
+          bootDiskSizeGb: 500
+        machineTypeUri: n1-standard-4
+        numInstances: 2

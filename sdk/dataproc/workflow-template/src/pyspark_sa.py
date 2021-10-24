@@ -13,7 +13,7 @@ from pyspark.ml import PipelineModel
 
 # retrieve command line arguments and store them as variables
 inputdir = sys.argv[1]
-outputfile = sys.argv[2]
+outputfile = sys.argv[2] 
 modeldir = sys.argv[3]
 
 #define regex pattern for preprocessing

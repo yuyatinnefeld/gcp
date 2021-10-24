@@ -7,8 +7,8 @@
 - managed cluster is ephemeral cluster
 
 ## Info
+- https://cloud.google.com/dataproc/docs/concepts/workflows/overview
 - https://garystafford.medium.com/using-the-google-cloud-dataproc-workflowtemplates-api-to-automate-spark-and-hadoop-workloads-on-gcp-95b02f54b5f2
-
 - https://cloud.google.com/dataproc/docs/tutorials/workflow-composer
 
 ## Process
@@ -22,7 +22,7 @@
 ./gcp_setup.sh
 ```
 
-## option 1 - Create a Workflow Templates via. API
+## option 1 - Create a Workflow Templates via. gcloud SDK
 ```bash
 # create a new dataproc with the workflow template
 ./workflow-temp-api/create-workflow-temp.sh
@@ -72,6 +72,34 @@ time gcloud dataproc workflow-templates instantiate ${TEMPLATE_ID} --region ${RE
 
 # terminating a workflow
 gcloud dataproc operations cancel ${OPERATION_ID} --region=region
+
+# delete workflow-template
+gcloud dataproc workflow-templates delete ${TEMPLATE_ID} --region=${REGION}
+```
+
+## advanced - create a ML prediction model spark
+
+```bash
+TEMPLATE_ID="my_workflow_template_id_9876"
+REGION="europe-west1"
+
+# prep the data
+data_prep.sh
+
+# create a new dataproc with the workflow template
+./workflow-temp-api/create-workflow-temp.sh
+
+# add the job3 - ml spark jopb
+./add-job-temp.sh
+
+# instantiate template with args
+gcloud dataproc workflow-templates instantiate ${TEMPLATE_ID} --region ${REGION} #--async
+
+# export the template
+gcloud dataproc workflow-templates export ${TEMPLATE_ID} \
+  --destination my-workflow-template-2.yaml \
+  --region ${REGION}
+
 
 # delete workflow-template
 gcloud dataproc workflow-templates delete ${TEMPLATE_ID} --region=${REGION}
