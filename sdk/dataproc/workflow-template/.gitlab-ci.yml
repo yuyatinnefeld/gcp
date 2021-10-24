@@ -1,0 +1,55 @@
+image: google/cloud-sdk
+
+variables:
+  BUCKET_NAME: dataproc-temp-yt-123456
+  TEMPLATE_ID: my_workflow_template_id_1234
+  REGION: europe-west1
+  ZONE: europe-west1-b
+  TEMP_FILE: resources/my-workflow-template-2.yaml
+  STORAGE_CLASS: Standard 
+
+before_script:
+  - echo "👾 Dataproc workflow temp 👾"
+  - gcloud auth activate-service-account --key-file=${GCP_KEY_FILE}
+  - gcloud config set project ${GCP_PROJECT_ID}
+
+stages:
+  - data-prep
+  - cluster-prep
+  - cluster-run
+  - clean-up
+
+#### uploading input csv data to GCS ####
+data-prep:
+  stage: data-prep    
+  script:
+    - gsutil mb -p ${GCP_PROJECT_ID} -l ${REGION} -c ${STORAGE_CLASS} gs://${BUCKET_NAME}/ || true
+    - gsutil cp data/training_data.csv gs://${BUCKET_NAME}/input/training_data.csv
+    - gsutil cp data/test_data.csv gs://${BUCKET_NAME}/input/test_data.csv
+    - gsutil cp src/pyspark_sa.py gs://${BUCKET_NAME}/src/pyspark_sa.py
+  when: manual
+
+#### import a workflow template ####
+cluster-prep:
+  stage: cluster-prep
+  script:
+    - |
+        gcloud dataproc workflow-templates import ${TEMPLATE_ID} \
+          --source=${TEMP_FILE} \
+          --region=${REGION}
+  when: manual
+
+#### instantiate the workflow template ####
+cluster-run:
+  stage: cluster-run
+  script:
+    - gcloud dataproc workflow-templates instantiate ${TEMPLATE_ID} --region ${REGION} #--async
+  when: manual
+
+#### deleting the GCS ####
+clean-up:
+  stage: clean-up
+  script:
+    - gsutil rm -r gs://${BUCKET_NAME}
+    - gcloud dataproc workflow-templates delete ${TEMPLATE_ID} --region=${REGION}
+  when: manual
