@@ -20,7 +20,27 @@ table_1 = config('TABLE_1')
 table_2 = config('TABLE_2')
 credential_path = config('CREDENTIAL_PATH')
 
+project_id = "yygcplearning"
+project_id2 = ""
+regional_location = ""
+multi_location = ""
+dataset_1 = ""
+dataset_2 = ""
+dataset_3 = ""
+table_1 = ""
+table_2 = ""
+
+def get_cred(credential_path):
+    credentials = get_credentials(credential_path)
+    list_jobs(credentials, project_id, 10)
+    return credentials
+
 if __name__ == "__main__":
+    print("main.py")
+    get_cred(credential_path)
+
+    #craete_dataset(data
+
     table_id1 = str("{0}.{1}.{2}").format(project_id, dataset_1, table_1)
     table_id2 = str("{0}.{1}.{2}").format(project_id, dataset_1, table_2)
     table_ids = [table_id1]
